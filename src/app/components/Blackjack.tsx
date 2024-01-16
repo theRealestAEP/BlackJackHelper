@@ -338,7 +338,7 @@ export default function BlackJack() {
                         onChange={handlePlayerHandChange}
                         className="form-input px-4 py-2 border rounded"
                     />
-                    {playerBust && <span className="text-md font-small">{(Math.trunc(playerBust * 100))}%</span>}
+                    {playerBust && <span className="text-md font-small"> bust {(Math.trunc(playerBust * 100))}%</span>}
                 </div>
             </div>
             <div>
