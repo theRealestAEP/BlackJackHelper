@@ -101,9 +101,13 @@ type PlayerHandKeyHard = keyof typeof strategyChart.hard;
 type CardValueKey = keyof typeof cardValues;
 
 const getStrategyDecision = (playerCard1: string, playerCard2: string, dealerCard: string) => {
+    if(dealerCard == 'J' || dealerCard == 'Q' || dealerCard == 'K'){
+        dealerCard = '10'
+    }
     const dealerCardKey = dealerCard as DealerCardKey;
     const card1Key = playerCard1 as CardValueKey;
     const card2Key = playerCard2 as CardValueKey;
+
 
     if ((playerCard1 === 'A' || playerCard2 === 'A') && !(playerCard1 === 'A' && playerCard2 === 'A')) {
         // Soft case
