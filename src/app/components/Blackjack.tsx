@@ -302,12 +302,21 @@ export default function BlackJack() {
     useEffect(() => {
         // Function to handle key press events
         const handleKeyPress = (event: KeyboardEvent) => {
-            const cardType = keyPresses[event.key.toLowerCase()];
-            if (cardType) {
-                decrementCard(cardType as keyof Shoe);
+            // Check if the currently focused element is a text input
+            const activeElement = document.activeElement as HTMLInputElement;
+            const isTextInputFocused = activeElement 
+                && activeElement.tagName === 'INPUT' 
+                && (activeElement.type === 'text' || activeElement.type === 'number');
+    
+            // Only execute the shortcut logic if a text input is not focused
+            if (!isTextInputFocused) {
+                const cardTypeKey = keyPresses[event.key.toLowerCase()];
+                if (cardTypeKey && shoe.hasOwnProperty(cardTypeKey)) {
+                    decrementCard(cardTypeKey as keyof Shoe);
+                }
             }
         };
-
+    
         // Add keydown event listener
         window.addEventListener('keydown', handleKeyPress);
 
