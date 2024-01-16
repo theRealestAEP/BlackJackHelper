@@ -18,6 +18,12 @@ interface Shoe {
     threes: number,
     twos: number
 }
+type DealerCardKey = keyof typeof strategyChart.hard[8];
+type PlayerHandKeySoft = keyof typeof strategyChart.soft;
+type PlayerHandKeyPairs = keyof typeof strategyChart.pairs;
+type PlayerHandKeyHard = keyof typeof strategyChart.hard;
+type CardValueKey = keyof typeof cardValues;
+
 
 const initialShoeState = (numDecks: number) => ({
     aces: 4 * numDecks,
@@ -84,6 +90,7 @@ const cardValues = {
     'K': 10,
     'Q': 10,
     'J': 10,
+    '10': 10,
     '9': 9,
     '8': 8,
     '7': 7,
@@ -94,14 +101,26 @@ const cardValues = {
     '2': 2
 }
 
-type DealerCardKey = keyof typeof strategyChart.hard[8];
-type PlayerHandKeySoft = keyof typeof strategyChart.soft;
-type PlayerHandKeyPairs = keyof typeof strategyChart.pairs;
-type PlayerHandKeyHard = keyof typeof strategyChart.hard;
-type CardValueKey = keyof typeof cardValues;
+const keyPresses: { [key: string]: keyof Shoe } = {
+    '1': 'aces',
+    'k': 'kings',
+    'q': 'queens',
+    'j': 'jacks',
+    '0': 'tens',
+    '9': 'nines',
+    '8': 'eights',
+    '7': 'sevens',
+    '6': 'sixes',
+    '5': 'fives',
+    '4': 'fours',
+    '3': 'threes',
+    '2': 'twos'
+};
+
+
 
 const getStrategyDecision = (playerCard1: string, playerCard2: string, dealerCard: string) => {
-    if(dealerCard == 'J' || dealerCard == 'Q' || dealerCard == 'K'){
+    if (dealerCard == 'J' || dealerCard == 'Q' || dealerCard == 'K') {
         dealerCard = '10'
     }
     const dealerCardKey = dealerCard as DealerCardKey;
@@ -280,19 +299,30 @@ export default function BlackJack() {
         setAdvice(decision);
     };
 
-
     useEffect(() => {
-        // Calculate and set the favorability score whenever the shoe state changes
-        const score = calculateAdvancedFavorability(shoe); // Implement this function as before
-        const trueCount = calculateTrueCount(shoe); // Implement this function as before
+        // Function to handle key press events
+        const handleKeyPress = (event: KeyboardEvent) => {
+            const cardType = keyPresses[event.key.toLowerCase()];
+            if (cardType) {
+                decrementCard(cardType as keyof Shoe);
+            }
+        };
 
+        // Add keydown event listener
+        window.addEventListener('keydown', handleKeyPress);
+
+        // Code to update favorability score and true count
+        const score = calculateAdvancedFavorability(shoe);
+        const trueCount = calculateTrueCount(shoe);
         setFavorabilityScore(score);
         setTrueCount(trueCount);
+        setPlayerBust(calculatePercentBust(shoe, playerHand));
 
-        setPlayerBust(calculatePercentBust(shoe, playerHand))
-
-    }, [shoe]);
-
+        // Clean up the event listener when the component unmounts
+        return () => {
+            window.removeEventListener('keydown', handleKeyPress);
+        };
+    }, [shoe, decrementCard, setFavorabilityScore, setTrueCount, setPlayerBust, playerHand]);
     return (
         <>
             <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden">
@@ -304,6 +334,9 @@ export default function BlackJack() {
                         onChange={handleDeckChange}
                         className="form-input px-4 py-2 border rounded"
                     />
+                </div>
+                <div className='flex items-center justify-between mb-4 mt-4 ml-4 mr-4'>
+                    <span>you can use your keyboard do decrement cards 2-9, 1 for Aces, 0 for 10, j, q, and k</span>
                 </div>
                 {Object.entries(shoe).map(([cardType, count]) => (
                     <div key={cardType} className="flex items-center justify-between mb-2">
@@ -331,14 +364,15 @@ export default function BlackJack() {
                     <span className="text-md font-medium">True Count: {trueCount}</span>
                 </div>
                 <div className="flex items-center justify-between mb-4">
-                    <span className="text-lg font-semibold margin-right px-10 items-left">Enter Your Hand #: </span>
+                    <span className="text-sm font-semibold margin-right px-10 items-left">Enter your hand #: </span>
                     <input
                         type="number"
                         value={playerHand}
                         onChange={handlePlayerHandChange}
                         className="form-input px-4 py-2 border rounded"
                     />
-                    {playerBust && <span className="text-md font-small"> bust {(Math.trunc(playerBust * 100))}%</span>}
+                    bust %:
+                    {playerBust && <span className="text-md font-small"> {(Math.trunc(playerBust * 100))}%</span>}
                 </div>
             </div>
             <div>
