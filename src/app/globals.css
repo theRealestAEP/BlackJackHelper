@@ -16,12 +16,30 @@
   }
 }
 
+@media (max-width: 640px) {
+
+  .my-4 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .p-4 {
+    padding: 1rem;
+  }
+
+  .sm:ml-4 {
+    margin-left: 0;
+  }
+
+  .flex-1 {
+    flex: none;
+    width: 100%;
+  }
+}
+
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }

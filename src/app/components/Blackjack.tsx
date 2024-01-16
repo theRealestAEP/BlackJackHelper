@@ -291,7 +291,7 @@ export default function BlackJack() {
 
     return (
         <>
-            <div className="max-w-2xl mx-auto p-8 bg-white p-4 rounded-lg shadow-md">
+            <div  className="max-w-2xl mx-auto p-8 bg-white p-4 rounded-lg shadow-md overflow-hidden">
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-lg font-semibold margin-right px-10 items-left">Number of Decks in Shoe</span>
                     <input
@@ -334,7 +334,7 @@ export default function BlackJack() {
                 </div>
             </div>
             <div>
-                <div className="bg-white p-4 rounded-lg shadow-md ml-4 w-1/8">
+            <div className="bg-white p-4 rounded-lg shadow-md ml-4 mr-4 mt-6 w-full md:w-1/8 max-w-2xl">
                 <span className="block text-sm font-large mb-1" >The Book</span>
                     <div className="flex flex-col">
                         <div className="mb-4">
