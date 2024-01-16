@@ -291,7 +291,7 @@ export default function BlackJack() {
 
     return (
         <>
-            <div  className="max-w-2xl mx-auto p-8 bg-white p-4 rounded-lg shadow-md overflow-hidden">
+            <div className="bg-white p-4 rounded-lg shadow-md overflow-hidden">
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-lg font-semibold margin-right px-10 items-left">Number of Decks in Shoe</span>
                     <input
@@ -320,8 +320,12 @@ export default function BlackJack() {
                         </div>
                     </div>
                 ))}
-                <div className="text-md font-medium mt-6">Favorability Score: {favorabilityScore.toFixed(2)}</div>
-                <div className="text-md font-medium">True Count: {trueCount}</div>
+                <div className="mt-6">
+                    <span className="text-md font-medium">Favorability Score: {favorabilityScore.toFixed(2)}</span>
+                </div>
+                <div className="mb-4">
+                    <span className="text-md font-medium">True Count: {trueCount}</span>
+                </div>
                 <div className="flex items-center justify-between mb-4">
                     <span className="text-lg font-semibold margin-right px-10 items-left">Enter Your Hand #: </span>
                     <input
@@ -334,8 +338,8 @@ export default function BlackJack() {
                 </div>
             </div>
             <div>
-            <div className="bg-white p-4 rounded-lg shadow-md ml-4 mr-4 mt-6 w-full md:w-1/8 max-w-2xl">
-                <span className="block text-sm font-large mb-1" >The Book</span>
+                <div className="bg-white p-4 rounded-lg shadow-md ml-4 mr-4 mt-6 w-full md:w-1/8 max-w-2xl ">
+                    <span className="block text-sm font-large mb-1" >The Book</span>
                     <div className="flex flex-col">
                         <div className="mb-4">
                             <span className="block text-sm font-medium mb-1" >Player Card 1</span>
@@ -346,7 +350,7 @@ export default function BlackJack() {
                             </select>
                         </div>
                         <div className="mb-4">
-                          <span  className="block text-sm font-medium mb-1" >Player Card 2</span>
+                            <span className="block text-sm font-medium mb-1" >Player Card 2</span>
                             <select onChange={handlePlayerCard2Change} className="form-select px-4 py-2 border rounded">
                                 {Object.keys(cardValues).map(card => (
                                     <option value={card} key={card}>{card}</option>
